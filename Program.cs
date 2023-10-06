@@ -29,18 +29,7 @@ namespace SUT23_Individuellt_projekt
             pin[3] = 4023;
             pin[4] = 1666;
 
-            string[] completeUser = new string[5];
-            completeUser[0] = users[0] + pin[0];
-            completeUser[1] = users[1] + pin[1];
-            completeUser[2] = users[2] + pin[2];
-            completeUser[3] = users[3] + pin[3];
-            completeUser[4] = users[4] + pin[4];
-
-            bool correctUser = true;
-            while (correctUser)
-            {
-
-            }
+            int count = 3;
             Console.WriteLine("Välkommen till Awesome Bank!");
             Console.WriteLine("Användarnamn:");
             string userName = Console.ReadLine();
@@ -48,9 +37,51 @@ namespace SUT23_Individuellt_projekt
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
+                while (count != 0)
+                {
+                    if (pincode == pin[0])
+                    {
+                        Console.WriteLine("Välkommen, " + users[0] + "!");
+                    }
+                    else if (pincode != pin[0])
+                    {
+                        count--;
+                        Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
+                    }
+                }
+                if (count == 0)
+                {
+                    pin[0]++;
+                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                }
+               
 
             }
-            
+            if userName == users[1])
+            {
+                Console.WriteLine("Pinkod:");
+                int pincode = Convert.ToInt32(Console.ReadLine());
+
+            }
+            if userName == users[2])
+            {
+                Console.WriteLine("Pinkod:");
+                int pincode = Convert.ToInt32(Console.ReadLine());
+
+            }
+            if userName == users[3])
+            {
+                Console.WriteLine("Pinkod:");
+                int pincode = Convert.ToInt32(Console.ReadLine());
+
+            }
+            if userName == users[4])
+            {
+                Console.WriteLine("Pinkod:");
+                int pincode = Convert.ToInt32(Console.ReadLine());
+
+            }
+
         }
         public static void Welcome()
         {
