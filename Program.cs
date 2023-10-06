@@ -30,6 +30,7 @@ namespace SUT23_Individuellt_projekt
             pin[4] = 1666;
 
             int count = 3;
+            int reset = 0;
             Console.WriteLine("Välkommen till Awesome Bank!");
             Console.WriteLine("Användarnamn:");
             string userName = Console.ReadLine();
@@ -47,12 +48,16 @@ namespace SUT23_Individuellt_projekt
                     {
                         count--;
                         Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
+                        reset++;
                     }
                 }
                 if (count == 0)
                 {
                     pin[0]++;
                     Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                    count ++;
+                    count ++;
+                    count ++;
                 }
                
 
