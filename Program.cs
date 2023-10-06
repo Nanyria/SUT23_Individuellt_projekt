@@ -1,4 +1,7 @@
-﻿namespace SUT23_Individuellt_projekt
+﻿using System.ComponentModel;
+using System.Linq.Expressions;
+
+namespace SUT23_Individuellt_projekt
 {
     internal class Program
     {
@@ -12,15 +15,42 @@
 
         public static void Loggin()
         {
-            Console.WriteLine("Välkommen till Awesome Bank!");
-            Console.WriteLine("Användarnamn:");
-            string userName = Console.ReadLine();
-            if userName == null || userName.Length == 0)
+            string[] users = new string[5];
+            users[0] = "Legolas";
+            users[1] = "Madicken_";
+            users[2] = "Ariel";
+            users[3] = "Howl1337";
+            users[4] = "Dracula_Forever";
+
+            int[] pin = new int[5];
+            pin[0] = 4445;
+            pin[1] = 1234;
+            pin[2] = 4888;
+            pin[3] = 4023;
+            pin[4] = 1666;
+
+            string[] completeUser = new string[5];
+            completeUser[0] = users[0] + pin[0];
+            completeUser[1] = users[1] + pin[1];
+            completeUser[2] = users[2] + pin[2];
+            completeUser[3] = users[3] + pin[3];
+            completeUser[4] = users[4] + pin[4];
+
+            bool correctUser = true;
+            while (correctUser)
             {
 
             }
-            Console.WriteLine("Pinkod:");
-            int pin = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Välkommen till Awesome Bank!");
+            Console.WriteLine("Användarnamn:");
+            string userName = Console.ReadLine();
+            if userName == users[0])
+            {
+                Console.WriteLine("Pinkod:");
+                int pincode = Convert.ToInt32(Console.ReadLine());
+
+            }
+            
         }
         public static void Welcome()
         {
@@ -70,9 +100,11 @@
         public static void StoreUsers()
         {
 
+
         }
         public static void ValidateUserName()
         {
+            if
 
         }
         public static void ValidatePin()
