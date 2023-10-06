@@ -66,24 +66,114 @@ namespace SUT23_Individuellt_projekt
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
+                while (count != 0)
+                {
+                    if (pincode == pin[1])
+                    {
+                        Console.WriteLine("Välkommen, " + users[0] + "!");
+                    }
+                    else if (pincode != pin[1])
+                    {
+                        count--;
+                        Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
+                        reset++;
+                    }
+                }
+                if (count == 0)
+                {
+                    pin[1]++;
+                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                    count++;
+                    count++;
+                    count++;
+                }
+
 
             }
             if userName == users[2])
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
+                while (count != 0)
+                {
+                    if (pincode == pin[2])
+                    {
+                        Console.WriteLine("Välkommen, " + users[0] + "!");
+                    }
+                    else if (pincode != pin[2])
+                    {
+                        count--;
+                        Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
+                        reset++;
+                    }
+                }
+                if (count == 0)
+                {
+                    pin[2]++;
+                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                    count++;
+                    count++;
+                    count++;
+                }
+
 
             }
+
+
             if userName == users[3])
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
+                while (count != 0)
+                {
+                    if (pincode == pin[3])
+                    {
+                        Console.WriteLine("Välkommen, " + users[3] + "!");
+                    }
+                    else if (pincode != pin[3])
+                    {
+                        count--;
+                        Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
+                        reset++;
+                    }
+                }
+                if (count == 0)
+                {
+                    pin[3]++;
+                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                    count++;
+                    count++;
+                    count++;
+                }
+
 
             }
             if userName == users[4])
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
+                while (count != 0)
+                {
+                    if (pincode == pin[4])
+                    {
+                        Console.WriteLine("Välkommen, " + users[4] + "!");
+                    }
+                    else if (pincode != pin[4])
+                    {
+                        count--;
+                        Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
+                        reset++;
+                    }
+                }
+                if (count == 0)
+                {
+                    pin[4]++;
+                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                    count++;
+                    count++;
+                    count++;
+                }
+
 
             }
 
