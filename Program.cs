@@ -15,6 +15,7 @@ namespace SUT23_Individuellt_projekt
 
         public static void Loggin()
         {
+            //Måste finnas ett smidigare sätt att göra detta på dock, det det blir orimligt mycket kod! Kan man kalla på varje 0 element på något sätt?
             string[] users = new string[5];
             users[0] = "Legolas";
             users[1] = "Madicken_";
@@ -34,7 +35,7 @@ namespace SUT23_Individuellt_projekt
             Console.WriteLine("Välkommen till Awesome Bank!");
             Console.WriteLine("Användarnamn:");
             string userName = Console.ReadLine();
-            if userName == users[0])
+            if userName == users[0] && userName != null)
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
@@ -62,7 +63,7 @@ namespace SUT23_Individuellt_projekt
                
 
             }
-            if userName == users[1])
+            if userName == users[1] && userName != null)
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
@@ -90,7 +91,7 @@ namespace SUT23_Individuellt_projekt
 
 
             }
-            if userName == users[2])
+            if userName == users[2] && userName != null)
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
@@ -118,9 +119,7 @@ namespace SUT23_Individuellt_projekt
 
 
             }
-
-
-            if userName == users[3])
+            if userName == users[3] && userName != null)
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
@@ -148,7 +147,7 @@ namespace SUT23_Individuellt_projekt
 
 
             }
-            if userName == users[4])
+            if userName == users[4] && userName != null)
             {
                 Console.WriteLine("Pinkod:");
                 int pincode = Convert.ToInt32(Console.ReadLine());
@@ -175,6 +174,10 @@ namespace SUT23_Individuellt_projekt
                 }
 
 
+            }
+            else
+            {
+                Console.WriteLine("Du måste skriva in ett användarnamn.");
             }
 
         }
