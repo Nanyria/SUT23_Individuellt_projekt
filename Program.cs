@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 
 namespace SUT23_Individuellt_projekt
 {
@@ -35,6 +36,14 @@ namespace SUT23_Individuellt_projekt
             Console.WriteLine("Välkommen till Awesome Bank!");
             Console.WriteLine("Användarnamn:");
             string userName = Console.ReadLine();
+            foreach (string item in users)
+            {
+                if (users.First && pin.First)
+
+            }
+            {
+
+            }
             if userName == users[0] && userName != null)
             {
                 Console.WriteLine("Pinkod:");
@@ -228,6 +237,11 @@ namespace SUT23_Individuellt_projekt
         }
         public static void StoreUsers()
         {
+            string[] LegolasAccounts = new string[] { "Lönekonto", "Sparkonto", "Räkningar" };
+            string[] Madicken_ = new string[] { "Sparkonto", "Godiskonto" };
+            string[] Ariel = new string[] { "Kungligt konto" };
+            string[] Howl1337 = new string[] { "Pendragon", "Wizard Howl", "Wales", "Suits" };
+            string[] Dracula_Forever = new string[] { "Offerpengar", "Tandläkare", "Sparpengar", "Slottsutgifter", "Sparande" };
 
 
         }
