@@ -16,7 +16,6 @@ namespace SUT23_Individuellt_projekt
 
         public static void Loggin()
         {
-            //Måste finnas ett smidigare sätt att göra detta på dock, det det blir orimligt mycket kod! Kan man kalla på varje 0 element på något sätt?
             string[] users = new string[5];
             users[0] = "Legolas";
             users[1] = "Madicken_";
@@ -54,20 +53,19 @@ namespace SUT23_Individuellt_projekt
                                 Console.WriteLine("Välkommen, " + userName + "!");
                                 break;
                             }
-                            else if (pincode != expectedPin)
+                            else if (pincode != expectedPin && count > 1)
                             {
                                 count--;
                                 Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
                                 reset++;
 
                             }
-                            else if (count == 0)
+                            else if (pincode != expectedPin && count <= 1)
                             {
-                                expectedPin++;
                                 Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
                                 count++;
                                 count++;
-                                count++;
+                                break;
 
                             }
 
@@ -88,152 +86,8 @@ namespace SUT23_Individuellt_projekt
         }
 
 
-        //if userName == users[0] && userName != null)
-        //{
-        //    Console.WriteLine("Pinkod:");
-        //    int pincode = Convert.ToInt32(Console.ReadLine());
-        //    while (count != 0)
-        //    {
-        //        if (pincode == pin[0])
-        //        {
-        //            Console.WriteLine("Välkommen, " + users[0] + "!");
-        //        }
-        //else if (pincode != pin[0])
-        //{
-        //    count--;
-        //    Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
-        //    reset++;
-        //}
-        ////    }
-        //if (count == 0)
-        //{
-        //    pin[0]++;
-        //    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-        //    count++;
-        //    count++;
-        //    count++;
-        //}
 
-
-        //}
-        //if userName == users[1] && userName != null)
-        //{
-        //    Console.WriteLine("Pinkod:");
-        //    int pincode = Convert.ToInt32(Console.ReadLine());
-        //    while (count != 0)
-        //    {
-        //        if (pincode == pin[1])
-        //        {
-        //            Console.WriteLine("Välkommen, " + users[0] + "!");
-        //        }
-        //        else if (pincode != pin[1])
-        //        {
-        //            count--;
-        //            Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
-        //            reset++;
-        //        }
-        //    }
-        //    if (count == 0)
-        //    {
-        //        pin[1]++;
-        //        Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-        //        count++;
-        //        count++;
-        //        count++;
-        //    }
-
-
-        //}
-        //if userName == users[2] && userName != null)
-        //{
-        //    Console.WriteLine("Pinkod:");
-        //    int pincode = Convert.ToInt32(Console.ReadLine());
-        //    while (count != 0)
-        //    {
-        //        if (pincode == pin[2])
-        //        {
-        //            Console.WriteLine("Välkommen, " + users[0] + "!");
-        //        }
-        //        else if (pincode != pin[2])
-        //        {
-        //            count--;
-        //            Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
-        //            reset++;
-        //        }
-        //    }
-        //    if (count == 0)
-        //    {
-        //        pin[2]++;
-        //        Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-        //        count++;
-        //        count++;
-        //        count++;
-        //    }
-
-
-        //}
-        //if userName == users[3] && userName != null)
-        //{
-        //    Console.WriteLine("Pinkod:");
-        //    int pincode = Convert.ToInt32(Console.ReadLine());
-        //    while (count != 0)
-        //    {
-        //        if (pincode == pin[3])
-        //        {
-        //            Console.WriteLine("Välkommen, " + users[3] + "!");
-        //        }
-        //        else if (pincode != pin[3])
-        //        {
-        //            count--;
-        //            Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
-        //            reset++;
-        //        }
-        //    }
-        //    if (count == 0)
-        //    {
-        //        pin[3]++;
-        //        Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-        //        count++;
-        //        count++;
-        //        count++;
-        //    }
-
-
-        //}
-        //if userName == users[4] && userName != null)
-        //{
-        //    Console.WriteLine("Pinkod:");
-        //    int pincode = Convert.ToInt32(Console.ReadLine());
-        //    while (count != 0)
-        //    {
-        //        if (pincode == pin[4])
-        //        {
-        //            Console.WriteLine("Välkommen, " + users[4] + "!");
-        //        }
-        //        else if (pincode != pin[4])
-        //        {
-        //            count--;
-        //            Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
-        //            reset++;
-        //        }
-        //    }
-        //    if (count == 0)
-        //    {
-        //        pin[4]++;
-        //        Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-        //        count++;
-        //        count++;
-        //        count++;
-        //    }
-
-
-        //}
-        //else
-        //{
-        //    Console.WriteLine("Du måste skriva in ett användarnamn.");
-        //}
-
-    }
+    
         public static void Welcome()
         {
 
@@ -255,13 +109,13 @@ namespace SUT23_Individuellt_projekt
                     switch (result)
                     {
                         case 1:
-                            Program.UserAccInfo();
+                            UserAccInfo();
                             break;
                         case 2:
-                            Program.Transfer();
+                            Transfer();
                             break;
                         case 3:
-                            Program.Withdraw();
+                            Withdraw();
                             break;
                         case 4:
                             loggedin = false;
