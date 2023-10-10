@@ -6,6 +6,11 @@ using System.Reflection.Metadata;
 namespace SUT23_Individuellt_projekt
 {
   
+    public class AccInfo
+    {
+        public string accountName { get; set; }
+        public double accountValue { get; set; }
+    }
 
     internal class Program
     {
@@ -152,40 +157,44 @@ namespace SUT23_Individuellt_projekt
             pin[3] = 4023;
             pin[4] = 1666;
 
+        }
+        public static void StoreUserInfo()
+        {
+            List<AccInfo> Legolas = new List<AccInfo>();
+            Legolas.Add(new AccInfo { accountName = "Lönekonto", accountValue = 152006.2});
+            Legolas.Add(new AccInfo { accountName = "Sparkonto", accountValue = 6666856.865});
+            Legolas.Add(new AccInfo { accountName = "Räkningar", accountValue = 165589});
+ 
+        }
 
-
-
+        public static void ArielInfo()
+        {
+            string[] Ariel = new string[1];
+            Ariel[0] = "Kungligt konto";
+        }
+        public static void Madicken_Info()
+        {
             string[] Madicken_ = new string[2];
             Madicken_[0] = "Sparkonto";
             Madicken_[1] = "Godiskonto";
-
-            string[] Ariel = new string[1];
-            Ariel[0] = "Kungligt konto";
-
+        }
+        public static void Howl1337Info()
+        {
             string[] Howl1337 = new string[4];
             Howl1337[0] = "Pendragon";
             Howl1337[1] = "Wizard Howl";
             Howl1337[2] = "Wales";
             Howl1337[3] = "Suits";
-
+        }
+        public static void Dracula_ForeverInfo()
+        {
             string[] Dracula_Forever = new string[5];
             Dracula_Forever[0] = "Offerpengar";
             Dracula_Forever[1] = "Tandläkare";
             Dracula_Forever[2] = "Sparpengar";
             Dracula_Forever[3] = "Slottsutgifter";
             Dracula_Forever[4] = "Sparande";
-
-
         }
-        public static void Legolas()
-        {
-            string[] Legolas = new string[3];
-            Legolas[0] = "Lönekonto";
-            Legolas[1] = "Sparkonto";
-            Legolas[2] = "Räkningar";
-        }
-        public static void Ariel
-
         public static void UserAccInfo()
         {
             Console.WriteLine("Hej," + currentUser + "!");
