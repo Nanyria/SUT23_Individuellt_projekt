@@ -1,34 +1,29 @@
 ﻿using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Reflection.Metadata;
 
 namespace SUT23_Individuellt_projekt
 {
+  
+
     internal class Program
     {
+        public static string[] users;
+        public static int[] pin;
+        public static string currentUser;
         static void Main(string[] args)
         {
  
-
+            StoreUsers();
+            Loggin();
+            UserAccInfo();
 
 
         }
 
         public static void Loggin()
         {
-            string[] users = new string[5];
-            users[0] = "Legolas";
-            users[1] = "Madicken_";
-            users[2] = "ariel";
-            users[3] = "Howl1337";
-            users[4] = "Dracula_Forever";
-
-            int[] pin = new int[5];
-            pin[0] = 4445;
-            pin[1] = 1234;
-            pin[2] = 4888;
-            pin[3] = 4023;
-            pin[4] = 1666;
 
             int count = 3;
             int reset = 0;
@@ -51,7 +46,12 @@ namespace SUT23_Individuellt_projekt
                             if (pincode == expectedPin)
                             {
                                 Console.WriteLine("Välkommen, " + userName + "!");
+                                currentUser = userName;
+                                Console.Clear();
+                                Meny();
                                 break;
+                                
+
                             }
                             else if (pincode != expectedPin && count > 1)
                             {
@@ -99,6 +99,8 @@ namespace SUT23_Individuellt_projekt
             Console.WriteLine("2. Överföringar mellan konton");
             Console.WriteLine("3. Ta ut pengar");
             Console.WriteLine("4. Logga ut");
+            int currentUser = 0;
+            int currentPin = 0;
             int result = 0;
             string choices = Console.ReadLine();
             bool loggedin = true;
@@ -135,7 +137,7 @@ namespace SUT23_Individuellt_projekt
         }
         public static void StoreUsers()
         {
-            string[] users = new string[5];
+            users = new string[5];
             users[0] = "Legolas";
             users[1] = "Madicken_";
             users[2] = "Ariel";
@@ -143,7 +145,7 @@ namespace SUT23_Individuellt_projekt
             users[4] = "Dracula_Forever";
 
 
-            int[] pin = new int[5];
+            pin = new int[5];
             pin[0] = 4445;
             pin[1] = 1234;
             pin[2] = 4888;
@@ -151,26 +153,42 @@ namespace SUT23_Individuellt_projekt
             pin[4] = 1666;
 
 
-            //string[] LegolasAccounts = new string[] { "Lönekonto", "Sparkonto", "Räkningar" };
-            //string[] Madicken_ = new string[] { "Sparkonto", "Godiskonto" };
-            //string[] Ariel = new string[] { "Kungligt konto" };
-            //string[] Howl1337 = new string[] { "Pendragon", "Wizard Howl", "Wales", "Suits" };
-            //string[] Dracula_Forever = new string[] { "Offerpengar", "Tandläkare", "Sparpengar", "Slottsutgifter", "Sparande" };
+
+
+            string[] Madicken_ = new string[2];
+            Madicken_[0] = "Sparkonto";
+            Madicken_[1] = "Godiskonto";
+
+            string[] Ariel = new string[1];
+            Ariel[0] = "Kungligt konto";
+
+            string[] Howl1337 = new string[4];
+            Howl1337[0] = "Pendragon";
+            Howl1337[1] = "Wizard Howl";
+            Howl1337[2] = "Wales";
+            Howl1337[3] = "Suits";
+
+            string[] Dracula_Forever = new string[5];
+            Dracula_Forever[0] = "Offerpengar";
+            Dracula_Forever[1] = "Tandläkare";
+            Dracula_Forever[2] = "Sparpengar";
+            Dracula_Forever[3] = "Slottsutgifter";
+            Dracula_Forever[4] = "Sparande";
 
 
         }
-        public static void ValidateUserName()
+        public static void Legolas()
         {
-            if
-
+            string[] Legolas = new string[3];
+            Legolas[0] = "Lönekonto";
+            Legolas[1] = "Sparkonto";
+            Legolas[2] = "Räkningar";
         }
-        public static void ValidatePin()
-        {
+        public static void Ariel
 
-        }
         public static void UserAccInfo()
         {
-            Console.WriteLine("Hej," users;
+            Console.WriteLine("Hej," + currentUser + "!");
         }
         public static void Transfer()
         {
