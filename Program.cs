@@ -170,18 +170,22 @@ namespace SUT23_Individuellt_projekt
             Legolas.Add(new AccInfo ("Lönekonto", 152006.2));
             Legolas.Add(new AccInfo ("Sparkonto", 666.865));
             Legolas.Add(new AccInfo ("Räkningar", 165589));
+            Legolas.Add(new AccInfo("Vapenkonto", 0.56));
 
             List<AccInfo> Ariel = new List<AccInfo>();
-            Ariel.Add(new AccInfo ("Sparkonto", 594999.2));
+            Ariel.Add(new AccInfo("Fiskkonto", 5999.2));
+            Ariel.Add(new AccInfo("Kungligt Konto", 593272));
+            Ariel.Add(new AccInfo("Skeppskonto", 42832));
 
             List<AccInfo> Madicken_ = new List<AccInfo>();
-            Madicken_.Add(new AccInfo ("Sparkonto", 215 ));
+            Madicken_.Add(new AccInfo ("Sparkonto", 215));
             Madicken_.Add(new AccInfo ("Godiskonto", 13.5));
 
             List<AccInfo> Howl1337 = new List<AccInfo>();
             Howl1337.Add(new AccInfo ("Pendragon", 5032.1));
             Howl1337.Add(new AccInfo ("Wizard Howl", 50392));
             Howl1337.Add(new AccInfo ("Wales", 12000));
+            Howl1337.Add(new AccInfo("Calcifer", 314.43));
             Howl1337.Add(new AccInfo ("Suits", 17502.5));
 
             List<AccInfo> Dracula_Forever = new List<AccInfo>();
@@ -190,6 +194,7 @@ namespace SUT23_Individuellt_projekt
             Dracula_Forever.Add(new AccInfo ("Sparpengar", 16773219.32));
             Dracula_Forever.Add(new AccInfo ("Slottsutgifter", 194230.134));
             Dracula_Forever.Add(new AccInfo ("Sparande", 50431341.31));
+            Dracula_Forever.Add(new AccInfo("Blodbanken", 4251));
 
  
         }
@@ -198,7 +203,10 @@ namespace SUT23_Individuellt_projekt
             Console.WriteLine("Hej," + currentUser + "!");
            if (currentUser == users[0])
             {
-                foreach (string item in Legolas) { }
+                foreach (AccInfo Legolas in Legolas) 
+                {
+                    Console.WriteLine($accName:);
+                }
             }
 
         }
