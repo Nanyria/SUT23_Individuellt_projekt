@@ -8,6 +8,7 @@ namespace SUT23_Individuellt_projekt
   
     public class AccInfo
     {
+        public string userName {  get; set; }
         public string accountName { get; set; }
         public double accountValue { get; set; }
 
@@ -17,12 +18,27 @@ namespace SUT23_Individuellt_projekt
             accountValue = accVal;
         }
     }
+    public class Users
+    {
+        public string userName { get; set; }
+        public int pinCode { get; set; }
+        public int count { get; set; }
+
+
+        public Users(string user, int pin)
+        {
+            userName = user;
+            pinCode = pin;
+            count = 0;
+        }
+    }
 
     internal class Program
     {
         public static string[] users;
         public static int[] pin;
-        public static string currentUser;
+        public static int currentUser;
+        public static List<Users> AllUsers = new List<Users>();
         static void Main(string[] args)
         {
  
@@ -32,73 +48,125 @@ namespace SUT23_Individuellt_projekt
 
 
         }
-
         public static void Loggin()
         {
-
-            int count = 3;
-            int reset = 0;
             while (true)
             {
                 Console.WriteLine("Välkommen till Awesome Bank!");
                 Console.WriteLine("Användarnamn:");
-                string userName = Console.ReadLine();
-                Console.WriteLine("Pinkod:");
-                string enteredPin = Console.ReadLine();
-                if (int.TryParse(enteredPin, out int pincode))
+                string enteredName = Console.ReadLine();
+                Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName);
+                if (foundUser != null)
                 {
-                    int index = Array.IndexOf(users, userName);
-
-                    if (index >= 0 && index < pin.Length)
+                    for (int attempts = 0; attempts < 3; attempts++)
                     {
-                        int expectedPin = pin[index];
-
+                        Console.WriteLine("Pinkod:");
+                        string enteredPin = Console.ReadLine();
+                        if (int.TryParse(enteredPin, out int pincode))
                         {
-                            if (pincode == expectedPin)
+
+                            if (pincode == foundUser.pinCode)
                             {
-                                Console.WriteLine("Välkommen, " + userName + "!");
-                                currentUser = userName;
+                                Console.WriteLine("Välkommen, " + enteredName + "!");
                                 Console.Clear();
                                 Meny();
                                 break;
-                                
-
                             }
-                            else if (pincode != expectedPin && count > 1)
+                            else
                             {
-                                count--;
-                                Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
-                                reset++;
-
-                            }
-                            else if (pincode != expectedPin && count <= 1)
-                            {
-                                Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-                                count++;
-                                count++;
-                                break;
+                                foundUser.count++;
+                                Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", (3 - attempts));
+                                if (foundUser.count >= 3)
+                                {
+                                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                                    break;
+                                }
 
                             }
 
                         }
+                        else
+                        {
+
+                            Console.WriteLine("Pinkod i fel format. Vänligen skriv pinkoden i siffror.");
+                        }
 
                     }
-                    else
-                    {
-                        Console.WriteLine("Detta användarnamn finns inte registrerat. Har du skrivit fel?");
-                    }
+                    break;
                 }
                 else
                 {
-                    Console.WriteLine("Pinkod i fel format. Vänligen skriv pinkoden i siffror.");
+                    Console.WriteLine("Detta användarnamn finns inte registrerat. Har du skrivit fel?");
                 }
             }
 
         }
 
+        //public static int Loggin(int cure)
+        //{
+
+        //    int count = 3;
+        //    int reset = 0;
+        //    while (true)
+        //    {
+        //        Console.WriteLine("Välkommen till Awesome Bank!");
+        //        Console.WriteLine("Användarnamn:");
+        //        string userName = Console.ReadLine();
+        //        Console.WriteLine("Pinkod:");
+        //        string enteredPin = Console.ReadLine();
+        //        if (int.TryParse(enteredPin, out int pincode))
+        //        {
+        //            int index = Array.IndexOf(users, userName);
+
+        //            if (index >= 0 && index < pin.Length)
+        //            {
+        //                int expectedPin = pin[index];
+
+        //                {
+        //                    if (pincode == expectedPin)
+        //                    {
+        //                        Console.WriteLine("Välkommen, " + userName + "!");
+        //                        Console.Clear();
+        //                        Meny();
+        //                        break;
 
 
-    
+        //                    }
+        //                    else if (pincode != expectedPin && count > 1)
+        //                    {
+        //                        count--;
+        //                        Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", count);
+        //                        reset++;
+
+        //                    }
+        //                    else if (pincode != expectedPin && count <= 1)
+        //                    {
+        //                        Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+        //                        count++;
+        //                        count++;
+        //                        break;
+
+        //                    }
+
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                Console.WriteLine("Detta användarnamn finns inte registrerat. Har du skrivit fel?");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("Pinkod i fel format. Vänligen skriv pinkoden i siffror.");
+        //        }
+        //    }
+
+        //}
+
+
+
+
         public static void Welcome()
         {
 
@@ -148,24 +216,37 @@ namespace SUT23_Individuellt_projekt
         }
         public static void StoreUsers()
         {
-            users = new string[5];
-            users[0] = "Legolas";
-            users[1] = "Madicken_";
-            users[2] = "Ariel";
-            users[3] = "Howl1337";
-            users[4] = "Dracula_Forever";
+            AllUsers.Add(new Users("Legolas", 4445));
+            AllUsers.Add(new Users("Madicken_", 1234));
+            AllUsers.Add(new Users("Ariel,", 4888));
+            AllUsers.Add(new Users("Howl1337", 4023));
+            AllUsers.Add(new Users("Dracula_Forever", 1666));
+
+            //users = new string[5];
+            //users[0] = "Legolas";
+            //users[1] = "Madicken_";
+            //users[2] = "Ariel";
+            //users[3] = "Howl1337";
+            //users[4] = "Dracula_Forever";
 
 
-            pin = new int[5];
-            pin[0] = 4445;
-            pin[1] = 1234;
-            pin[2] = 4888;
-            pin[3] = 4023;
-            pin[4] = 1666;
+
+            //pin = new int[5];
+            //pin[0] = 4445;
+            //pin[1] = 1234;
+            //pin[2] = 4888;
+            //pin[3] = 4023;
+            //pin[4] = 1666;
 
         }
         public static void StoreUserInfo()
         {
+            AllUsers.Add(new Users("Legolas", 4445));
+            AllUsers.Add(new Users("Madicken_", 1234));
+            AllUsers.Add(new Users("Ariel,", 4888));
+            AllUsers.Add(new Users("Howl1337", 4023));
+            AllUsers.Add(new Users("Dracula_Forever", 1666));
+
             List<AccInfo> Legolas = new List<AccInfo>();
             Legolas.Add(new AccInfo ("Lönekonto", 152006.2));
             Legolas.Add(new AccInfo ("Sparkonto", 666.865));
@@ -201,13 +282,7 @@ namespace SUT23_Individuellt_projekt
         public static void UserAccInfo()
         {
             Console.WriteLine("Hej," + currentUser + "!");
-           if (currentUser == users[0])
-            {
-                foreach (AccInfo Legolas in Legolas) 
-                {
-                    Console.WriteLine($accName:);
-                }
-            }
+
 
         }
         public static void Transfer()
