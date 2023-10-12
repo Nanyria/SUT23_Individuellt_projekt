@@ -13,49 +13,28 @@ namespace SUT23_Individuellt_projekt
 
         public string[] accountName { get; set; }
         public double[] accountValue { get; set; }
-        public Users()
-        {
 
-        }
     }
-
     internal class Program
     {
         public static List<Users> AllUsers = new List<Users>();
-        Users loggedInUser = ValidateUser();
         static void Main(string[] args)
         {
  
             StoreUsers();
-            Loggin();
-
-            
-
+            Login();
 
         }
         
-        public static void Loggin()
+        public static void Logout(Users LoggedIn)
         {
-            Users loggedInUser = ValidateUser();
-            if (loggedInUser != null) 
-            {
-                Users foundPin = ValidatePassword();
-                if (foundPin != null)
-                {
-                    Console.WriteLine("Välkommen, " + loggedInUser.userName + "!");
-                    Console.Clear();
-                    Meny();
-
-                }
-                else
-                {
-                    WrongPass();
-                }
-            }
-
+            LoggedIn = null;
+            Console.WriteLine("Du har nu loggat ut.");
+            Console.Clear();
+            Login();
         }
 
-        public static Users ValidateUser()
+        public static Users Login()
         {
             while (true)
             {
@@ -65,8 +44,44 @@ namespace SUT23_Individuellt_projekt
                 Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName);
                 if (foundUser != null)
                 {
-                    return foundUser;
-                    
+
+                    Console.WriteLine("Pinkod:");
+                    string enteredPin = Console.ReadLine();
+
+                    if (int.TryParse(enteredPin, out int pincode))
+                    {
+                        for (int attempts = 0; attempts < 3; attempts++)
+                        {
+                            Users LoggedIn = AllUsers.FirstOrDefault(u => u.pinCode == pincode);
+                            if (LoggedIn != null)
+                            {
+                                Console.WriteLine("Välkommen, " + LoggedIn.userName + "!");
+                                Meny(LoggedIn);
+                                return LoggedIn;
+
+                            }
+                            else if (LoggedIn == null)
+                            {
+
+                                foundUser.count++;
+                                Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", (2 - attempts));
+                                if (foundUser.count >= 3)
+                                {
+                                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
+                                    break;
+                                }
+                            }
+
+                        }
+                        
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("Pinkod i fel format. Vänligen skriv pinkoden i siffror.");
+
+                    }
+
                 }
                 else
                 {
@@ -75,72 +90,9 @@ namespace SUT23_Individuellt_projekt
                 }   
             }
         }
-        public static Users ValidatePassword()
-        {
-            while (true)
-            {
-                
-                if (loggedInUser != null)
-                {
-                    for (int attempts = 0; attempts < 3; attempts++)
-                    {
-
-                        Console.WriteLine("Pinkod:");
-                        string enteredPin = Console.ReadLine();
-
-                        if (int.TryParse(enteredPin, out int pincode))
-                        {
-                            Users foundPin = AllUsers.FirstOrDefault(u => u.pinCode == pincode);
-                            if (foundPin != null)
-                            {
-                                return foundPin;
-
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                        }
-                        else
-                        {
-
-                            Console.WriteLine("Pinkod i fel format. Vänligen skriv pinkoden i siffror.");
-
-                        }
-
-                    }
-
-                }
-                
-            }
-
-        }
-        public static void WrongPass()
-        {
-             else
-            {
-                loggedInUser.count++;
-                Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", (2 - attempts));
-                if (loggedInUser.count >= 3)
-                {
-                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-                    return null;
-                }
-
-            }
-        }
-
-
-        public static void Welcome()
+        static void Meny(Users LoggedIn)
         {
 
-        }
-        static void Meny()
-        {
-            while(loggedInUser)
-            {
-
-            }
             Console.WriteLine("Välj vad du vill göra från menyn genom att ange korresponderande siffra:");
             Console.WriteLine("1. Se dina konton och saldo");
             Console.WriteLine("2. Överföringar mellan konton");
@@ -148,8 +100,7 @@ namespace SUT23_Individuellt_projekt
             Console.WriteLine("4. Logga ut");
             int result = 0;
             string choices = Console.ReadLine();
-            bool loggedin = true;
-            while (loggedin)
+            while (true)
             {
                 if (Int32.TryParse(choices, out result) || (result >= 1 && result < 5))
                 {
@@ -165,8 +116,7 @@ namespace SUT23_Individuellt_projekt
                             Withdraw();
                             break;
                         case 4:
-                            loggedin = false;
-                            Loggin();
+                            Logout(LoggedIn);
                             break;
 
                     }
