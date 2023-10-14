@@ -20,12 +20,12 @@ namespace SUT23_Individuellt_projekt
         public static List<Users> AllUsers = new List<Users>();
         static void Main(string[] args)
         {
- 
+
             StoreUsers();
             Login();
 
         }
-        
+
         public static void Logout(Users LoggedIn)
         {
             LoggedIn = null;
@@ -74,7 +74,7 @@ namespace SUT23_Individuellt_projekt
                             }
 
                         }
-                        
+
                     }
                     else
                     {
@@ -88,7 +88,7 @@ namespace SUT23_Individuellt_projekt
                 {
                     return null;
 
-                }   
+                }
             }
         }
         static void Meny(Users LoggedIn)
@@ -140,15 +140,15 @@ namespace SUT23_Individuellt_projekt
             {
                 userName = "Legolas",
                 pinCode = 4445,
-                accountName = new string[4] {"Lönekonto", "Sparkonto", "Räkningar", "Vapenkonto"},
-                accountValue = new double[4] {152006.2, 666.865, 165589, 0.56},
+                accountName = new string[4] { "Lönekonto", "Sparkonto", "Räkningar", "Vapenkonto" },
+                accountValue = new double[4] { 152006.2, 666.865, 165589, 0.56 },
             });
             AllUsers.Add(new Users
             {
                 userName = "Madicken_",
                 pinCode = 1234,
-                accountName = new string[2] {"Sparkonto", "Godiskonto"},
-                accountValue = new double[2] {215, 13.5},
+                accountName = new string[2] { "Sparkonto", "Godiskonto" },
+                accountValue = new double[2] { 215, 13.5 },
             });
             AllUsers.Add(new Users
             {
@@ -173,13 +173,20 @@ namespace SUT23_Individuellt_projekt
             });
 
         }
-        public static void UserAccInfo(Users LoggedIn)
+        public static string[] UserLists(Users LoggedIn)
         {
             var UserAccounts = LoggedIn.accountName.Select((str, index) => str + ": " + LoggedIn.accountValue[index].ToString()).ToArray();
             UserAccounts.GetEnumerator();
+
+            return UserAccounts;
+
+        }
+        public static void UserAccInfo(Users LoggedIn)
+        {
+            string[] UserAcc = UserLists(LoggedIn);
             Console.WriteLine("Hej," + LoggedIn.userName + "!");
             Console.WriteLine("Översikt av konton:");
-            foreach (string element in UserAccounts)
+            foreach (string element in UserAcc)
             {
                 Console.WriteLine("\n {0} kr", element);
             }
