@@ -55,6 +55,7 @@ namespace SUT23_Individuellt_projekt
                             Users LoggedIn = AllUsers.FirstOrDefault(u => u.pinCode == pincode);
                             if (LoggedIn != null)
                             {
+                                Console.Clear();
                                 Console.WriteLine("Välkommen, " + LoggedIn.userName + "!");
                                 Meny(LoggedIn);
                                 return LoggedIn;
@@ -107,7 +108,8 @@ namespace SUT23_Individuellt_projekt
                     switch (result)
                     {
                         case 1:
-                            UserAccInfo();
+                            Console.Clear();
+                            UserAccInfo(LoggedIn);
                             break;
                         case 2:
                             Transfer();
@@ -125,7 +127,7 @@ namespace SUT23_Individuellt_projekt
                 {
                     Console.WriteLine("Du måste skriva in en siffra mellan 1-4.");
                 }
-
+                break;
             }
 
 
@@ -171,15 +173,20 @@ namespace SUT23_Individuellt_projekt
             });
 
         }
-        public static void StoreUserInfo()
+        public static void UserAccInfo(Users LoggedIn)
         {
- 
-        }
-        public static void UserAccInfo()
-        {
-            //Console.WriteLine("Hej," + user.Username + "!");
-
-
+            var UserAccounts = LoggedIn.accountName.Select((str, index) => str + ": " + LoggedIn.accountValue[index].ToString()).ToArray();
+            UserAccounts.GetEnumerator();
+            Console.WriteLine("Hej," + LoggedIn.userName + "!");
+            Console.WriteLine("Översikt av konton:");
+            foreach (string element in UserAccounts)
+            {
+                Console.WriteLine("\n {0} kr", element);
+            }
+            Console.WriteLine("Tryck på enter för att komma tillbacka till menyn.");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+            Console.Clear();
+            Meny(LoggedIn);
         }
         public static void Transfer()
         {
