@@ -112,12 +112,15 @@ namespace SUT23_Individuellt_projekt
                             UserAccInfo(LoggedIn);
                             break;
                         case 2:
-                            Transfer();
+                            Console.Clear();
+                            Transfer(LoggedIn);
                             break;
                         case 3:
-                            Withdraw();
+                            Console.Clear();
+                            Withdraw(LoggedIn);
                             break;
                         case 4:
+                            Console.Clear();
                             Logout(LoggedIn);
                             break;
 
@@ -184,24 +187,64 @@ namespace SUT23_Individuellt_projekt
         public static void UserAccInfo(Users LoggedIn)
         {
             string[] UserAcc = UserLists(LoggedIn);
+            int counter = 0;
             Console.WriteLine("Hej," + LoggedIn.userName + "!");
             Console.WriteLine("Översikt av konton:");
             foreach (string element in UserAcc)
             {
-                Console.WriteLine("\n {0} kr", element);
+                counter++;
+                Console.WriteLine("\n{0}. {1} kr", counter, element);
             }
             Console.WriteLine("Tryck på enter för att komma tillbacka till menyn.");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { }
             Console.Clear();
             Meny(LoggedIn);
         }
-        public static void Transfer()
+        public static void Transfer(Users LoggedIn)
         {
+            string[] UserAcc = UserLists(LoggedIn);
+            Console.WriteLine("Här är dina konton:");
+            for (int i = 0; i < UserAcc.Length; i++)
+            {
+                Console.WriteLine("\n {0}. " + UserAcc[i], i+1);
+            }
+
+                Console.WriteLine("\nVilket konto vill du överföra från? Slå in siffran för kontot.");
+            while (true)
+            {
+                int transferfrom = Convert.ToInt32(Console.ReadLine());
+                for (int i = 0; i < UserAcc.Length; i++)
+                {
+                    if (transferfrom == i + 1)
+                    {
+                        Console.WriteLine("Du vill överföra från kontot {0}", UserAcc[i] + ", stämmer det?");
+                        Console.WriteLine("[1]. Ja.");
+                        Console.WriteLine("[2]. Nej.");
+                        int confirm = Convert.ToInt32(Console.ReadLine());
+                        if (confirm == 1)
+                        {
+                            break;
+                        }
+                        if (confirm == 2)
+                        {
+
+                        }
+                    }
+                }
+
+            }
+
+            
+
 
         }
-        public static void Withdraw()
+        public static void Withdraw(Users LoggedIn)
         {
-
+            string[] UserAcc = UserLists(LoggedIn);
+            foreach (string element in UserAcc)
+            {
+                Console.WriteLine("\n {0} kr", element);
+            }
         }
         //public static void Loggin()
         //{
