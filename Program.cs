@@ -178,19 +178,20 @@
 
             return UserAccounts;
 
+
+
         }
         public static void UserAccInfo(Users LoggedIn)
         {
             string[] UserAcc = UserLists(LoggedIn);
             int counter = 0;
-            Console.WriteLine("Hej," + LoggedIn.userName + "!");
-            Console.WriteLine("Översikt av konton:");
+            Console.WriteLine("Översikt av konton för {0}:", LoggedIn.userName);
             foreach (string element in UserAcc)
             {
                 counter++;
                 Console.WriteLine("\n{0}. {1} kr", counter, element);
             }
-            Console.WriteLine("Tryck på enter för att komma tillbacka till menyn.");
+            Console.WriteLine("Tryck på enter för att komma tillbaka till menyn.");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { }
             Console.Clear();
             Meny(LoggedIn);
@@ -204,65 +205,143 @@
                 Console.WriteLine("\n {0}. " + UserAcc[i], i+1);
             }
 
-                Console.WriteLine("\nVilket konto vill du överföra från? Slå in siffran för kontot.");
-            //Lägg till möjlighet att återgå till meny
+            Console.WriteLine("\nVilket konto vill du överföra från? Slå in siffran för kontot.");
+            Console.WriteLine("Tryck på enter för att komma tillbaka till menyn.");
+
             while (true)
             {
-                int transferfrom = Convert.ToInt32(Console.ReadLine());
-                for (int i = 0; i < UserAcc.Length; i++)
+                if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter)
                 {
-                    if (transferfrom == i + 1)
+                    Console.Clear();
+                    Meny(LoggedIn);
+                    return;
+                }
+                int transferFrom;
+                try
+                {
+                    transferFrom = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Felaktigt inmatning. Ange ett heltal.");
+                    continue; 
+                }
+
+                if (transferFrom < 1 || transferFrom > UserAcc.Length)
+                {
+                    Console.WriteLine("Ogiltigt kontonummer. Ange ett giltigt kontonummer.");
+                    continue; 
+                }
+
+                if (transferFrom >= 1 && transferFrom <= UserAcc.Length)
+                {
+                    int sourceAccIndex = transferFrom - 1;
+                    string sourceAcc = UserAcc[sourceAccIndex];
+
+                    Console.WriteLine("Du vill överföra från kontot {0}", sourceAcc + ", stämmer det?");
+                    Console.WriteLine("[1]. Ja.");
+                    Console.WriteLine("[2]. Nej.");
+                    int confirm;
+                    try
                     {
-                        Console.WriteLine("Du vill överföra från kontot {0}", UserAcc[i] + ", stämmer det?");
-                        Console.WriteLine("[1]. Ja.");
-                        Console.WriteLine("[2]. Nej.");
-                        int confirm = Convert.ToInt32(Console.ReadLine());
-                        if (confirm == 1)
+                        confirm = Convert.ToInt32(Console.ReadLine());
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Felaktigt inmatning. Ange 1 eller 2.");
+                        continue; 
+                    }
+
+                    if (confirm == 1)
+                    {
+                        Console.WriteLine("Vilket konto vill du överföra pengar till?");
+                        int transferTo;
+                        try
                         {
-                            Console.WriteLine("Vilket konto vill du överföra pengar till?");
-                            int transferto = Convert.ToInt32(Console.ReadLine());
-                            for (int j = 0; j < UserAcc.Length; j++)
+                            transferTo = Convert.ToInt32(Console.ReadLine());
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Felaktigt inmatning. Ange ett heltal.");
+                            continue;
+                        }
+
+                        if (transferTo >= 1 && transferTo <= UserAcc.Length && transferTo != transferFrom)
+                        {
+                            int targetAccIndex = transferTo - 1;
+                            string targetAcc = UserAcc[targetAccIndex];
+
+                            Console.WriteLine("Du vill överföra till kontot {0}", targetAcc + ", stämmer det?");
+                            Console.WriteLine("[1]. Ja.");
+                            Console.WriteLine("[2]. Nej.");
+                            int confirm2;
+                            try
                             {
-                                if (transferto == j + 1 && transferto != transferfrom)
-                                {
-                                    Console.WriteLine("Du vill överföra från kontot {0}", UserAcc[j] + ", stämmer det?");
-                                    Console.WriteLine("[1]. Ja.");
-                                    Console.WriteLine("[2]. Nej.");
-                                    int confirm2 = Convert.ToInt32(Console.ReadLine()); //Går det att sätta samma int här så att man inte behöver deklarea flera? 
-                                    if (confirm2 == 1)
-                                    {
-                                        Console.WriteLine("Hur mycket pengar vill du överföra från {0} till {1}?", UserAcc[i], UserAcc[j]);
-                                        double amount = Convert.ToDouble(Console.ReadLine());
-                                        if (UserAcc[i] == transferto || amount <= transferto)
-                                        {
-
-                                        }
-                                    }
-                                    else if (confirm2 == 2)
-                                    {
-                                        break;
-                                    }
-
-                                }
-                                
-
+                                confirm2 = Convert.ToInt32(Console.ReadLine());
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Felaktigt inmatning. Ange 1 eller 2.");
+                                continue;
                             }
 
-                         
-                            
+                            if (confirm2 == 1)
+                            {
+                                Console.WriteLine("Hur mycket pengar vill du överföra från {0} till {1}?", sourceAcc, targetAcc);
+                                double amount;
+                                try
+                                {
+                                    amount = Convert.ToDouble(Console.ReadLine());
+                                }
+                                catch (FormatException)
+                                {
+                                    Console.WriteLine("Felaktigt inmatning. Ange ett numeriskt värde.");
+                                    continue;
+                                }
+                                double sourceBalance = double.Parse(sourceAcc.Split(':')[1]);
+                                double targetBalance = double.Parse(targetAcc.Split(":")[1]);
+                                if (sourceBalance >= amount)
+                                {
+                                    sourceBalance -= amount;
+                                    targetBalance += amount;
+
+                                    LoggedIn.accountValue[sourceAccIndex] = sourceBalance;
+                                    LoggedIn.accountValue[targetAccIndex] = targetBalance;
+                                    Console.Clear();
+                                    Console.WriteLine("Överföring av {0} kr från konto {1} till konto {2} lyckades.",amount, sourceAcc.Split(':')[0], targetAcc.Split(':')[0]);
+                                    UserAccInfo(LoggedIn);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Otillräckligt saldo för överföringen.");
+                                    Console.Clear();
+                                    Transfer(LoggedIn);
+                                    return;
+
+                                }
+                            }
+                            else if (confirm2 == 2)
+                            {
+                                Console.Clear();
+                                Transfer(LoggedIn);
+                                return;
+ 
+                            }
 
                         }
-                        else if (confirm == 2)
-                        {
-                            break;
-                        }
+
+
+                    }
+                    else if (confirm == 2)
+                    {
+                        Console.Clear();
+                        Transfer(LoggedIn);
+                        return;
                     }
                 }
 
+
             }
-
-            
-
 
         }
         public static void Withdraw(Users LoggedIn)
