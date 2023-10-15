@@ -206,7 +206,7 @@
             Console.Clear();
             Meny(LoggedIn);
         }
-        public static void Transfer(Users LoggedIn) //Lägg till felmeddelanden om input ej är godkänd
+        public static void Transfer(Users LoggedIn) 
         {
             string[] UserAcc = UserLists(LoggedIn);
             Console.WriteLine("Här är dina konton:");
@@ -359,9 +359,105 @@
         public static void Withdraw(Users LoggedIn)
         {
             string[] UserAcc = UserLists(LoggedIn);
-            foreach (string element in UserAcc)
+            Console.WriteLine("Här är dina konton:");
+            for (int i = 0; i < UserAcc.Length; i++)
             {
-                Console.WriteLine("\n {0} kr", element);
+                Console.WriteLine("\n {0}. " + UserAcc[i], i + 1);
+            }
+
+            Console.WriteLine("\nVilket konto vill du ta ut pengar från? Slå in siffran för kontot.");
+            Console.WriteLine("Tryck på enter för att komma tillbaka till menyn.");
+
+            while (true)
+            {
+                int transferFrom;
+                string input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.Clear();
+                    Meny(LoggedIn);
+                    return;
+                }
+
+                try
+                {
+                    transferFrom = Convert.ToInt32(input);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Felaktig inmatning. Ange ett heltal.");
+                    continue;
+                }
+
+                if (transferFrom < 1 || transferFrom > UserAcc.Length)
+                {
+                    Console.WriteLine("Ogiltigt kontonummer. Ange ett giltigt kontonummer.");
+                    continue;
+                }
+
+                if (transferFrom >= 1 && transferFrom <= UserAcc.Length)
+                {
+                    int sourceAccIndex = transferFrom - 1;
+                    string sourceAcc = UserAcc[sourceAccIndex];
+
+                    Console.WriteLine("Du vill ta ut pengar från kontot {0}", sourceAcc + ", stämmer det?");
+                    Console.WriteLine("[1]. Ja.");
+                    Console.WriteLine("[2]. Nej.");
+                    int confirm;
+                    try
+                    {
+                        confirm = Convert.ToInt32(Console.ReadLine());
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Felaktigt inmatning. Ange 1 eller 2.");
+                        continue;
+                    }
+
+                    if (confirm == 1)
+                    {
+
+                        Console.WriteLine("Hur mycket pengar vill du ta ut från {0}", sourceAcc);
+                        double amount;
+                        try
+                        {
+                            amount = Convert.ToDouble(Console.ReadLine());
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Felaktigt inmatning. Ange ett numeriskt värde.");
+                            continue;
+                        }
+                        double sourceBalance = double.Parse(sourceAcc.Split(':')[1]);
+                        if (sourceBalance >= amount)
+                        {
+                            sourceBalance -= amount;
+
+                            LoggedIn.accountValue[sourceAccIndex] = sourceBalance;
+                            Console.Clear();
+                            Console.WriteLine("Uttag av {0} kr från konto {1} lyckades.", amount, sourceAcc.Split(':')[0]);
+                            UserAccInfo(LoggedIn);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Otillräckligt saldo för överföringen.");
+                            Console.Clear();
+                            Transfer(LoggedIn);
+                            return;
+
+                        }
+
+
+                    }
+                    else if (confirm == 2)
+                    {
+                        Console.Clear();
+                        Transfer(LoggedIn);
+                        return;
+                    }
+                }
+
+
             }
         }
 
