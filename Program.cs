@@ -1,9 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq.Expressions;
-using System.Net.NetworkInformation;
-using System.Reflection.Metadata;
-
-namespace SUT23_Individuellt_projekt
+﻿namespace SUT23_Individuellt_projekt
 {
     public class Users
     {
@@ -200,7 +195,7 @@ namespace SUT23_Individuellt_projekt
             Console.Clear();
             Meny(LoggedIn);
         }
-        public static void Transfer(Users LoggedIn)
+        public static void Transfer(Users LoggedIn) //Lägg till felmeddelanden om input ej är godkänd
         {
             string[] UserAcc = UserLists(LoggedIn);
             Console.WriteLine("Här är dina konton:");
@@ -210,6 +205,7 @@ namespace SUT23_Individuellt_projekt
             }
 
                 Console.WriteLine("\nVilket konto vill du överföra från? Slå in siffran för kontot.");
+            //Lägg till möjlighet att återgå till meny
             while (true)
             {
                 int transferfrom = Convert.ToInt32(Console.ReadLine());
@@ -223,11 +219,42 @@ namespace SUT23_Individuellt_projekt
                         int confirm = Convert.ToInt32(Console.ReadLine());
                         if (confirm == 1)
                         {
-                            break;
-                        }
-                        if (confirm == 2)
-                        {
+                            Console.WriteLine("Vilket konto vill du överföra pengar till?");
+                            int transferto = Convert.ToInt32(Console.ReadLine());
+                            for (int j = 0; j < UserAcc.Length; j++)
+                            {
+                                if (transferto == j + 1 && transferto != transferfrom)
+                                {
+                                    Console.WriteLine("Du vill överföra från kontot {0}", UserAcc[j] + ", stämmer det?");
+                                    Console.WriteLine("[1]. Ja.");
+                                    Console.WriteLine("[2]. Nej.");
+                                    int confirm2 = Convert.ToInt32(Console.ReadLine()); //Går det att sätta samma int här så att man inte behöver deklarea flera? 
+                                    if (confirm2 == 1)
+                                    {
+                                        Console.WriteLine("Hur mycket pengar vill du överföra från {0} till {1}?", UserAcc[i], UserAcc[j]);
+                                        double amount = Convert.ToDouble(Console.ReadLine());
+                                        if (UserAcc[i] == transferto || amount <= transferto)
+                                        {
 
+                                        }
+                                    }
+                                    else if (confirm2 == 2)
+                                    {
+                                        break;
+                                    }
+
+                                }
+                                
+
+                            }
+
+                         
+                            
+
+                        }
+                        else if (confirm == 2)
+                        {
+                            break;
                         }
                     }
                 }
@@ -246,60 +273,7 @@ namespace SUT23_Individuellt_projekt
                 Console.WriteLine("\n {0} kr", element);
             }
         }
-        //public static void Loggin()
-        //{
-        //    while (true)
-        //    {
-        //        Console.WriteLine("Välkommen till Awesome Bank!");
-        //        Console.WriteLine("Användarnamn:");
-        //        string enteredName = Console.ReadLine();
-        //        Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName);
-        //        if (foundUser != null)
-        //        {
-        //            for (int attempts = 0; attempts < 3; attempts++)
-        //            {
-        //                Console.WriteLine("Pinkod:");
-        //                string enteredPin = Console.ReadLine();
-        //                if (int.TryParse(enteredPin, out int pincode))
-        //                {
 
-        //                    if (pincode == foundUser.pinCode)
-        //                    {
-        //                        Console.WriteLine("Välkommen, " + enteredName + "!");
-        //                        Console.Clear();
-        //                        Meny();
-        //                        return foundUser;
-        //                        break;
-        //                    }
-        //                    else
-        //                    {
-        //                        foundUser.count++;
-        //                        Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", (2 - attempts));
-        //                        if (foundUser.count >= 3)
-        //                        {
-        //                            Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-        //                            break;
-        //                        }
-
-        //                    }
-
-        //                }
-        //                else
-        //                {
-
-        //                    Console.WriteLine("Pinkod i fel format. Vänligen skriv pinkoden i siffror.");
-        //                }
-
-        //            }
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Detta användarnamn finns inte registrerat. Har du skrivit fel?");
-        //        }
-        //    }
-
-        //}
 
     }
 }
