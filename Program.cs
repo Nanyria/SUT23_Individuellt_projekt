@@ -23,18 +23,20 @@
 
         public static void Logout(ref Users LoggedIn)
         {
-            LoggedIn = null;
             Console.WriteLine("Du har nu loggat ut.");
+            Console.WriteLine("Tryck på Enter för att återgå till startsidan.");
+            Console.ReadKey(); 
+            LoggedIn = null;
             Console.Clear();
             Login();
         }
 
         public static Users Login()
         {
+            Console.WriteLine("Välkommen till Awesome Bank!");
             Users LoggedIn = null; 
             while (LoggedIn == null) 
             {
-                Console.WriteLine("Välkommen till Awesome Bank!");
                 Console.WriteLine("Användarnamn:");
                 string enteredName = Console.ReadLine();
                 Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName);
