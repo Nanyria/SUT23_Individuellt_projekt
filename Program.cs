@@ -21,7 +21,7 @@
 
         }
 
-        public static void Logout(Users LoggedIn)
+        public static void Logout(ref Users LoggedIn)
         {
             LoggedIn = null;
             Console.WriteLine("Du har nu loggat ut.");
@@ -31,7 +31,8 @@
 
         public static Users Login()
         {
-            while (true)
+            Users LoggedIn = null; 
+            while (LoggedIn == null) 
             {
                 Console.WriteLine("Välkommen till Awesome Bank!");
                 Console.WriteLine("Användarnamn:");
@@ -39,52 +40,36 @@
                 Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName);
                 if (foundUser != null)
                 {
-
                     Console.WriteLine("Pinkod:");
                     string enteredPin = Console.ReadLine();
 
-                    if (int.TryParse(enteredPin, out int pincode))
+                    if (int.TryParse(enteredPin, out int pincode) && foundUser.pinCode == pincode)
                     {
-                        for (int attempts = 0; attempts < 3; attempts++)
-                        {
-                            Users LoggedIn = AllUsers.FirstOrDefault(u => u.pinCode == pincode);
-                            if (LoggedIn != null)
-                            {
-                                Console.Clear();
-                                Console.WriteLine("Välkommen, " + LoggedIn.userName + "!");
-                                Meny(LoggedIn);
-                                return LoggedIn;
-
-                            }
-                            else if (LoggedIn == null)
-                            {
-
-                                foundUser.count++;
-                                Console.WriteLine("Du har skrivit fel pin. Du har {0} försök kvar.", (2 - attempts));
-                                if (foundUser.count >= 3)
-                                {
-                                    Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pin. Kontakta din bank för att låsa upp ditt konto igen.");
-                                    break;
-                                }
-                            }
-
-                        }
-
+                        Console.Clear();
+                        Console.WriteLine("Välkommen, " + foundUser.userName + "!");
+                        Meny(foundUser);
+                        LoggedIn = foundUser; 
                     }
                     else
                     {
-
-                        Console.WriteLine("Pinkod i fel format. Vänligen skriv pinkoden i siffror.");
-
+                        foundUser.count++;
+                        Console.Clear();
+                        Console.WriteLine("Du har skrivit fel pinkod. Du har {0} försök kvar.", (3 - foundUser.count));
+                        if (foundUser.count >= 3)
+                        {
+                            Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pinkod. Kontakta din bank för att låsa upp ditt konto igen.");
+                            return null; 
+                        }
                     }
-
                 }
                 else
                 {
-                    return null;
-
+                    Console.Clear();
+                    Console.WriteLine("Användaren hittades inte.");
                 }
             }
+            return LoggedIn;
+            
         }
         static void Meny(Users LoggedIn)
         {
@@ -124,7 +109,7 @@
                             break;
                         case 4:
                             Console.Clear();
-                            Logout(LoggedIn);
+                            Logout(ref LoggedIn);
                             break;
 
                     }
