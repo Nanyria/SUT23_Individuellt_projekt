@@ -88,19 +88,27 @@
         }
         static void Meny(Users LoggedIn)
         {
-
-            Console.WriteLine("Välj vad du vill göra från menyn genom att ange korresponderande siffra:");
-            Console.WriteLine("1. Se dina konton och saldo");
-            Console.WriteLine("2. Överföringar mellan konton");
-            Console.WriteLine("3. Ta ut pengar");
-            Console.WriteLine("4. Logga ut");
-            int result = 0;
-            string choices = Console.ReadLine();
             while (true)
             {
-                if (Int32.TryParse(choices, out result) || (result >= 1 && result < 5))
+
+                Console.WriteLine("Välj vad du vill göra från menyn genom att ange korresponderande siffra:");
+                Console.WriteLine("1. Se dina konton och saldo");
+                Console.WriteLine("2. Överföringar mellan konton");
+                Console.WriteLine("3. Ta ut pengar");
+                Console.WriteLine("4. Logga ut");
+                int choices;
+                try
                 {
-                    switch (result)
+                    choices = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Felaktigt inmatning. Ange en siffra mellan 1-4.");
+                    continue;
+                }
+                if (choices >= 1 && choices < 5)
+                {
+                    switch (choices)
                     {
                         case 1:
                             Console.Clear();
@@ -123,9 +131,11 @@
                 }
                 else
                 {
-                    Console.WriteLine("Du måste skriva in en siffra mellan 1-4.");
+                    Console.Clear();
+                    Console.WriteLine("Felaktigt inmatning. Ange en siffra mellan 1-4.");
+                    continue;
                 }
-                break;
+                continue;
             }
 
 
@@ -210,21 +220,23 @@
 
             while (true)
             {
-                if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter)
+                int transferFrom;
+                string input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input))
                 {
                     Console.Clear();
                     Meny(LoggedIn);
                     return;
                 }
-                int transferFrom;
+
                 try
                 {
-                    transferFrom = Convert.ToInt32(Console.ReadLine());
+                    transferFrom = Convert.ToInt32(input);
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Felaktigt inmatning. Ange ett heltal.");
-                    continue; 
+                    Console.WriteLine("Felaktig inmatning. Ange ett heltal.");
+                    continue;
                 }
 
                 if (transferFrom < 1 || transferFrom > UserAcc.Length)
