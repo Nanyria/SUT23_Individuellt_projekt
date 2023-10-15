@@ -2,11 +2,10 @@
 {
     public class Users
     {
+        //Klass för att lagra information om användare.
         public string userName { get; set; }
         public int pinCode { get; set; }
         public int count { get; set; }
-
-
         public string[] accountName { get; set; }
         public double[] accountValue { get; set; }
 
@@ -17,19 +16,9 @@
         static void Main(string[] args)
         {
 
-            StoreUsers();
-            Login();
+            StoreUsers(); //Kallar på de lagrade användarna.
+            Login(); //Kallar på Inloggningssidan.
 
-        }
-
-        public static void Logout(ref Users LoggedIn)
-        {
-            Console.WriteLine("Du har nu loggat ut.");
-            Console.WriteLine("Tryck på Enter för att återgå till startsidan.");
-            Console.ReadKey(); 
-            LoggedIn = null;
-            Console.Clear();
-            Login();
         }
 
         public static Users Login()
@@ -40,19 +29,19 @@
             {
                 Console.WriteLine("Användarnamn:");
                 string enteredName = Console.ReadLine();
-                Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName);
+                Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName); //Söker efter användaren i listan AllUsers. 
                 if (foundUser != null)
                 {
-                    if (foundUser.count < 3)
+                    if (foundUser.count < 3) //Om användaren inte redan använt sina tre inloggningsförsök så - 
                     {
                         Console.WriteLine("Pinkod:");
                         string enteredPin = Console.ReadLine();
 
-                        if (int.TryParse(enteredPin, out int pincode) && foundUser.pinCode == pincode)
+                        if (int.TryParse(enteredPin, out int pincode) && foundUser.pinCode == pincode) //Om pinkoden är i siffror och koden stämmer överens med koden som är inmatad för användaren
                         {
                             Console.Clear();
                             Console.WriteLine("Välkommen, " + foundUser.userName + "!");
-                            foundUser.count = 0;
+                            foundUser.count = 0; //Antal försök att logga in resettas.
                             Meny(foundUser);
                             LoggedIn = foundUser;
                         }
@@ -88,7 +77,16 @@
             return LoggedIn;
             
         }
-        static void Meny(Users LoggedIn)
+        public static void Logout(ref Users LoggedIn) //Ändrar LoggedIn till null i Login-metoden så att anvvändaren loggas ut.
+        {
+            Console.WriteLine("Du har nu loggat ut.");
+            Console.WriteLine("Tryck på Enter för att återgå till startsidan.");
+            Console.ReadKey();
+            LoggedIn = null;
+            Console.Clear();
+            Login();
+        }
+        static void Meny(Users LoggedIn) //Meny med switch där användaren väljer vad hen vill göra.
         {
             while (true)
             {
@@ -145,7 +143,7 @@
         }
         public static void StoreUsers()
         {
-
+            //Lagrar användarnas information i klassen Users. 
             AllUsers.Add(new Users
             {
                 userName = "Legolas",
@@ -185,6 +183,7 @@
         }
         public static string[] UserLists(Users LoggedIn)
         {
+            //Slår ihop användarnas account-namn och account-värde och lagrar dem i en ny array.
             var UserAccounts = LoggedIn.accountName.Select((str, index) => str + ": " + LoggedIn.accountValue[index].ToString()).ToArray();
             UserAccounts.GetEnumerator();
 
@@ -193,7 +192,7 @@
 
 
         }
-        public static void UserAccInfo(Users LoggedIn)
+        public static void UserAccInfo(Users LoggedIn) //Visar upp användarens konton.
         {
             string[] UserAcc = UserLists(LoggedIn);
             int counter = 0;
@@ -204,7 +203,7 @@
                 Console.WriteLine("\n{0}. {1} kr", counter, element);
             }
             Console.WriteLine("Tryck på enter för att komma tillbaka till menyn.");
-            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { } //Om användaren trycker på enter återgår hen till menyn.
             Console.Clear();
             Meny(LoggedIn);
         }
@@ -212,9 +211,9 @@
         {
             string[] UserAcc = UserLists(LoggedIn);
             Console.WriteLine("Här är dina konton:");
-            for (int i = 0; i < UserAcc.Length; i++)
+            for (int i = 0; i < UserAcc.Length; i++) //Skriver ut användarens konton
             {
-                Console.WriteLine("\n {0}. " + UserAcc[i], i+1);
+                Console.WriteLine("\n {0}. " + UserAcc[i], i+1); //i+1 för att första kontot ska stå som konto 1 och inte 0.
             }
 
             Console.WriteLine("\nVilket konto vill du överföra från? Slå in siffran för kontot.");
@@ -224,7 +223,7 @@
             {
                 int transferFrom;
                 string input = Console.ReadLine();
-                if (string.IsNullOrEmpty(input))
+                if (string.IsNullOrEmpty(input)) //Om användaren trycker på enter återgår hen till menyn.
                 {
                     Console.Clear();
                     Meny(LoggedIn);
@@ -249,8 +248,8 @@
 
                 if (transferFrom >= 1 && transferFrom <= UserAcc.Length)
                 {
-                    int sourceAccIndex = transferFrom - 1;
-                    string sourceAcc = UserAcc[sourceAccIndex];
+                    int sourceAccIndex = transferFrom - 1; //letar reda på vilken index-plats kontot har
+                    string sourceAcc = UserAcc[sourceAccIndex]; //skriver ut kontot från arrayen med användarkonton genom att leta reda på rätt konto med sourceAccIndex
 
                     Console.WriteLine("Du vill överföra från kontot {0}", sourceAcc + ", stämmer det?");
                     Console.WriteLine("[1]. Ja.");
@@ -283,7 +282,7 @@
                         if (transferTo >= 1 && transferTo <= UserAcc.Length && transferTo != transferFrom)
                         {
                             int targetAccIndex = transferTo - 1;
-                            string targetAcc = UserAcc[targetAccIndex];
+                            string targetAcc = UserAcc[targetAccIndex]; //Se koden ovan för sourceAcc för mer info
 
                             Console.WriteLine("Du vill överföra till kontot {0}", targetAcc + ", stämmer det?");
                             Console.WriteLine("[1]. Ja.");
@@ -312,15 +311,15 @@
                                     Console.WriteLine("Felaktigt inmatning. Ange ett numeriskt värde.");
                                     continue;
                                 }
-                                double sourceBalance = double.Parse(sourceAcc.Split(':')[1]);
-                                double targetBalance = double.Parse(targetAcc.Split(":")[1]);
+                                double sourceBalance = double.Parse(sourceAcc.Split(':')[1]); //Delar upp den kombinerade arrayen i två, och kommer åt delen som är double som den sen konverterar till double
+                                double targetBalance = double.Parse(targetAcc.Split(":")[1]); //-"-
                                 if (sourceBalance >= amount)
                                 {
                                     sourceBalance -= amount;
                                     targetBalance += amount;
 
-                                    LoggedIn.accountValue[sourceAccIndex] = sourceBalance;
-                                    LoggedIn.accountValue[targetAccIndex] = targetBalance;
+                                    LoggedIn.accountValue[sourceAccIndex] = sourceBalance; //Ser till att det lagrade värdet för det specifika kontot balanseras 
+                                    LoggedIn.accountValue[targetAccIndex] = targetBalance; //-"-
                                     Console.Clear();
                                     Console.WriteLine("Överföring av {0} kr från konto {1} till konto {2} lyckades.",amount, sourceAcc.Split(':')[0], targetAcc.Split(':')[0]);
                                     UserAccInfo(LoggedIn);
@@ -437,7 +436,7 @@
                             {
                                 Console.WriteLine("Ange pinkod för att ta ut pengar:");
                                 string enteredPin = Console.ReadLine();
-                                if (int.TryParse(enteredPin, out int pincode) && LoggedIn.pinCode == pincode)
+                                if (int.TryParse(enteredPin, out int pincode) && LoggedIn.pinCode == pincode) //Om pinkoden stämmer
                                 {
                                     sourceBalance -= amount;
 
@@ -449,7 +448,7 @@
                                 }
                                 else
                                 {
-                                    LoggedIn.count++;
+                                    LoggedIn.count++; //Se Login för mer info
                                     Console.WriteLine("Du har skrivit fel pinkod. Du har {0} försök kvar.", (3 - LoggedIn.count));
                                     if (LoggedIn.count >= 3)
                                     {
