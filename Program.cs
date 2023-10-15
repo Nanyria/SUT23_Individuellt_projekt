@@ -6,6 +6,7 @@
         public int pinCode { get; set; }
         public int count { get; set; }
 
+
         public string[] accountName { get; set; }
         public double[] accountValue { get; set; }
 
@@ -42,27 +43,41 @@
                 Users foundUser = AllUsers.FirstOrDefault(u => u.userName == enteredName);
                 if (foundUser != null)
                 {
-                    Console.WriteLine("Pinkod:");
-                    string enteredPin = Console.ReadLine();
-
-                    if (int.TryParse(enteredPin, out int pincode) && foundUser.pinCode == pincode)
+                    if (foundUser.count < 3)
                     {
-                        Console.Clear();
-                        Console.WriteLine("Välkommen, " + foundUser.userName + "!");
-                        Meny(foundUser);
-                        LoggedIn = foundUser; 
+                        Console.WriteLine("Pinkod:");
+                        string enteredPin = Console.ReadLine();
+
+                        if (int.TryParse(enteredPin, out int pincode) && foundUser.pinCode == pincode)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Välkommen, " + foundUser.userName + "!");
+                            foundUser.count = 0;
+                            Meny(foundUser);
+                            LoggedIn = foundUser;
+                        }
+                        else
+                        {
+                            foundUser.count++;
+                            Console.Clear();
+                            Console.WriteLine("Du har skrivit fel pinkod. Du har {0} försök kvar.", (3 - foundUser.count));
+                            if (foundUser.count >= 3)
+                            {
+                                Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pinkod. Kontakta din bank för att låsa upp ditt konto igen.");
+                                Login();
+                                return null;
+
+                            }
+                        }
                     }
                     else
                     {
-                        foundUser.count++;
-                        Console.Clear();
-                        Console.WriteLine("Du har skrivit fel pinkod. Du har {0} försök kvar.", (3 - foundUser.count));
-                        if (foundUser.count >= 3)
-                        {
-                            Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pinkod. Kontakta din bank för att låsa upp ditt konto igen.");
-                            return null; 
-                        }
+                        Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pinkod. Kontakta din bank för att låsa upp ditt konto igen.");
+                        Login();
+                        return null;
+
                     }
+
                 }
                 else
                 {
@@ -418,12 +433,36 @@
                         double sourceBalance = double.Parse(sourceAcc.Split(':')[1]);
                         if (sourceBalance >= amount)
                         {
-                            sourceBalance -= amount;
+                            while (true)
+                            {
+                                Console.WriteLine("Ange pinkod för att ta ut pengar:");
+                                string enteredPin = Console.ReadLine();
+                                if (int.TryParse(enteredPin, out int pincode) && LoggedIn.pinCode == pincode)
+                                {
+                                    sourceBalance -= amount;
 
-                            LoggedIn.accountValue[sourceAccIndex] = sourceBalance;
-                            Console.Clear();
-                            Console.WriteLine("Uttag av {0} kr från konto {1} lyckades.", amount, sourceAcc.Split(':')[0]);
-                            UserAccInfo(LoggedIn);
+                                    LoggedIn.accountValue[sourceAccIndex] = sourceBalance;
+                                    Console.Clear();
+                                    Console.WriteLine("Uttag av {0} kr från konto {1} lyckades.", amount, sourceAcc.Split(':')[0]);
+                                    LoggedIn.count = 0;
+                                    UserAccInfo(LoggedIn);
+                                }
+                                else
+                                {
+                                    LoggedIn.count++;
+                                    Console.WriteLine("Du har skrivit fel pinkod. Du har {0} försök kvar.", (3 - LoggedIn.count));
+                                    if (LoggedIn.count >= 3)
+                                    {
+                                        Console.WriteLine("Du har använt dina tre försök men inte skrivit in rätt pinkod. Kontakta din bank för att låsa upp ditt konto igen.");
+                                        Logout(ref LoggedIn);
+                                        break;
+                                    }
+                                    continue;
+                                }
+
+                            }
+                            
+
                         }
                         else
                         {
